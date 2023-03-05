@@ -28,6 +28,14 @@ runs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
+
+    - name: Check-out devops repository
+      uses: actions/checkout@v3
+      with:
+        repository: fieldOfView/cura-plugin-translation-action
+        token: ${{ secrets.GITHUB_TOKEN }}
+        ref: feature_definitioncontainer_translation
+        path: cura-plugin-translation-action
         
     - uses: actions/setup-python@v4
       with:
@@ -57,7 +65,7 @@ runs:
       shell: bash
 
     - name: Create .pot files from .def.json files
-      run: python getsettingsdefinitiontexts.py
+      run: python cura-plugin-translation-action/getsettingsdefinitiontexts.py
       shell: bash
 
     - name: Merge into single .pot file
@@ -66,6 +74,10 @@ runs:
 
     - name: Remove separate .pot files for each .def.json file
       run: rm -rf i18n-temp
+      shell: bash
+      
+    - name: Remove checked out action
+      run: rm -rf cura-plugin-translation-action
       shell: bash
 
     - name: Hash new .pot messages
