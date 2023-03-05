@@ -90,8 +90,14 @@ runs:
       id: hash_after
       run: echo "i18n_hash=$(grep '^msgid' ${{ inputs.translation_folder }}/${{ inputs.translation_name }}.pot | sort | sha1sum)" >> $GITHUB_OUTPUT
       shell: bash
+      
+    - if: ${{ !steps.exists.outputs.exists }}
+      name: Add template to git repo
+      id: git_add_pot
+      run: git add ${{ inputs.translation_folder }}/${{ inputs.translation_name }}.pot
+      shell: bash
 
-    - if: ${{ !steps.exists.outputs.exists || (steps.hash_after.outputs.i18n_hash != steps.hash_before.outputs.i18n_hash) }}
+    - if: ${{ steps.hash_after.outputs.i18n_hash != steps.hash_before.outputs.i18n_hash }}
       name: Set output value
       id: template_updated
       run: echo "updated=1" >> $GITHUB_OUTPUT
