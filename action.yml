@@ -70,9 +70,17 @@ runs:
     - name: Create .pot files from .def.json files
       run: python cura-plugin-translation-action/getsettingsdefinitiontexts.py
       shell: bash
+      
+    - name: list files
+      run: ls -l i18n-temp
+      shell: bash
 
     - name: Merge into single .pot file
       run: xgettext -o ${{ inputs.translation_folder }}/${{ inputs.translation_name }}.pot                    --from-code=UTF-8   i18n-temp/*.pot
+      shell: bash
+
+    - name: list files
+      run: ls -l ${{ inputs.translation_folder }}
       shell: bash
 
     - name: Remove separate .pot files for each .def.json file
