@@ -91,7 +91,7 @@ runs:
     - if: ${{ steps.hash_after.outputs.i18n_hash != steps.hash_before.outputs.i18n_hash }}
       name: Set output value
       id: template_updated
-      run: echo "::set-output name=updated::1"
+      run: echo "updated=1" >> $GITHUB_OUTPUT
       shell: bash
 
     - if: ${{ steps.template_updated.outputs.updated == ''}}
