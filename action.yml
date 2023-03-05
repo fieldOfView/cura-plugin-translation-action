@@ -60,14 +60,17 @@ runs:
       shell: bash
 
     - name: Update .pot from Python files
+      continue-on-error: true
       run: xgettext --package-name='${{ inputs.plugin_name }}' -o i18n-temp/python.pot  --language=python     --from-code=UTF-8 -ki18n:1 -ki18nc:1c,2 -ki18np:1,2 -ki18ncp:1c,2,3 $(find -L . -name \*.py)
       shell: bash
 
     - name: Update .pot from QML files
+      continue-on-error: true
       run: xgettext --package-name='${{ inputs.plugin_name }}' -o i18n-temp/qml.pot     --language=javascript --from-code=UTF-8 -ki18n:1 -ki18nc:1c,2 -ki18np:1,2 -ki18ncp:1c,2,3 $(find -L . -name \*.qml)
       shell: bash
 
     - name: Create .pot files from .def.json files
+      continue-on-error: true
       run: python cura-plugin-translation-action/getsettingsdefinitiontexts.py
       shell: bash
       
@@ -88,7 +91,7 @@ runs:
       run: echo "i18n_hash=$(grep '^msgid' ${{ inputs.translation_folder }}/${{ inputs.translation_name }}.pot | sort | sha1sum)" >> $GITHUB_OUTPUT
       shell: bash
 
-    - if: ${{ steps.hash_after.outputs.i18n_hash != steps.hash_before.outputs.i18n_hash }}
+    - if: ${{ !steps.exists.outputs.exists || (steps.hash_after.outputs.i18n_hash != steps.hash_before.outputs.i18n_hash) }}
       name: Set output value
       id: template_updated
       run: echo "updated=1" >> $GITHUB_OUTPUT
