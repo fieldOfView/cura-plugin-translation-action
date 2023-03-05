@@ -33,7 +33,6 @@ runs:
       uses: actions/checkout@v3
       with:
         repository: fieldOfView/cura-plugin-translation-action
-        token: ${{ secrets.GITHUB_TOKEN }}
         ref: feature_definitioncontainer_translation
         path: cura-plugin-translation-action
         
