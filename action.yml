@@ -49,11 +49,11 @@ runs:
       shell: bash
 
     - name: Update .pot from Python files
-      run: xgettext --package-name='${{ inputs.plugin_name }}' -o ${{ inputs.translation_folder }}/${{ inputs.translation_name }}.pot                 --language=python     --from-code=UTF-8 -ki18n:1 -ki18nc:1c,2 -ki18np:1,2 -ki18ncp:1c,2,3 $(find -L . -name \*.py)
+      run: xgettext --package-name='${{ inputs.plugin_name }}' -o i18n-temp/python.pot  --language=python     --from-code=UTF-8 -ki18n:1 -ki18nc:1c,2 -ki18np:1,2 -ki18ncp:1c,2,3 $(find -L . -name \*.py)
       shell: bash
 
     - name: Update .pot from QML files
-      run: xgettext --package-name='${{ inputs.plugin_name }}' -o ${{ inputs.translation_folder }}/${{ inputs.translation_name }}.pot --join-existing --language=javascript --from-code=UTF-8 -ki18n:1 -ki18nc:1c,2 -ki18np:1,2 -ki18ncp:1c,2,3 $(find -L . -name \*.qml)
+      run: xgettext --package-name='${{ inputs.plugin_name }}' -o i18n-temp/qml.pot     --language=javascript --from-code=UTF-8 -ki18n:1 -ki18nc:1c,2 -ki18np:1,2 -ki18ncp:1c,2,3 $(find -L . -name \*.qml)
       shell: bash
 
     - name: Create .pot files from .def.json files
@@ -61,7 +61,7 @@ runs:
       shell: bash
 
     - name: Merge into single .pot file
-      run: xgettext -o ${{ inputs.translation_folder }}/${{ inputs.translation_name }}.pot --join-existing i18n-temp/*.pot
+      run: xgettext -o ${{ inputs.translation_folder }}/${{ inputs.translation_name }}.pot                    --from-code=UTF-8   i18n-temp/*.pot
       shell: bash
 
     - name: Remove separate .pot files for each .def.json file
