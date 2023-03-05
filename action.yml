@@ -44,6 +44,10 @@ runs:
       run: mkdir -p "${{ inputs.translation_folder }}"
       shell: bash
 
+    - name: "Ensure translation folder exists"
+      run: mkdir -p i18n-temp
+      shell: bash
+
     - name: "Check template file exists"
       id: template_exist
       run: echo "::set-output name=exists::$([[ -f ${{ inputs.translation_folder }}/${{ inputs.translation_name }}.pot ]] && echo true)"
