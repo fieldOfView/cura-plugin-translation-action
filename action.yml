@@ -94,7 +94,7 @@ runs:
     - if: ${{ !steps.exists.outputs.exists }}
       name: Add template to git repo
       id: git_add_pot
-      run: git add -f ${{ inputs.translation_folder }}/${{ inputs.translation_name }}.pot
+      run: git add ${{ inputs.translation_folder }}/${{ inputs.translation_name }}.pot
       shell: bash
 
     - if: ${{ steps.hash_after.outputs.i18n_hash != steps.hash_before.outputs.i18n_hash }}
